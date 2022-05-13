@@ -1,25 +1,40 @@
 import * as React from 'react';
 import './App.css';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Button, Paper } from '@mui/material';
+import {Button, Paper} from '@mui/material';
 
 function App() {
-  return (
-    <Container className="App">
-      <Paper>
-        <Typography variant="h1">
-          Welcome to React
-        </Typography>
-        <Typography variant="h2">
-          This is a simple React App
-        </Typography>
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
-      </Paper>
-    </Container>
-  );
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: prefersDarkMode ? 'dark' : 'light',
+                },
+            }),
+        [prefersDarkMode],
+    );
+
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Container>
+                <Paper>
+                    <Typography variant="h1">
+                        Hello World
+                    </Typography>
+                    <Button>
+                        Hello Button
+                    </Button>
+                </Paper>
+            </Container>
+        </ThemeProvider>
+    );
 }
 
 export default App;
