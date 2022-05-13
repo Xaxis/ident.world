@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ident.world/static/css/main.073c9b0a.css",
+    "main.js": "/ident.world/static/js/main.f46187a0.js",
+    "static/js/787.2bea8f91.chunk.js": "/ident.world/static/js/787.2bea8f91.chunk.js",
+    "index.html": "/ident.world/index.html",
+    "main.073c9b0a.css.map": "/ident.world/static/css/main.073c9b0a.css.map",
+    "main.f46187a0.js.map": "/ident.world/static/js/main.f46187a0.js.map",
+    "787.2bea8f91.chunk.js.map": "/ident.world/static/js/787.2bea8f91.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.f46187a0.js"
+  ]
+}
