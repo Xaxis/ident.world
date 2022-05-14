@@ -33,26 +33,20 @@ function App() {
                 <Paper
                     sx={{
                         marginTop: '48px',
-                        padding: '48px'
+                        padding: '32px'
                     }}>
                     <main>
                         <Typography
-                            component={'h1'}
                             variant={'h2'}
                             align={'center'}
                             color={'textPrimary'}
                             gutterBottom
                         >
-                            Build your identity
+                            Create Identity
                         </Typography>
-                        {/*<Typography component={'p'} variant={'h5'} align={'center'} color={'textSecondary'}>*/}
-                        {/*    Quickly build a unique identifier that securely allows you to manage your associations*/}
-                        {/*    across the web.*/}
-                        {/*</Typography>*/}
                     </main>
                     <BuildIdentityStepper/>
                 </Paper>
-
             </Container>
         </ThemeProvider>
     );

@@ -1,6 +1,7 @@
 import * as React from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -8,9 +9,14 @@ import StepLabel from '@mui/material/StepLabel';
 import StepOneIcon from '@mui/icons-material/Email';
 import StepTwoIcon from '@mui/icons-material/Shield';
 import StepThreeIcon from '@mui/icons-material/Download';
-import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import StepConnector, {stepConnectorClasses} from '@mui/material/StepConnector';
+import FormStepOne from './FormStepOne';
+import FormStepTwo from './FormStepTwo';
+import FormStepThree from './FormStepThree';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
-const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+const ColorlibConnector = styled(StepConnector)(({theme}) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
         top: 22,
     },
@@ -35,7 +41,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
 }));
 
-const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
+const ColorlibStepIconRoot = styled('div')(({theme, ownerState}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
     zIndex: 1,
     color: '#fff',
@@ -57,16 +63,16 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
 }));
 
 function ColorlibStepIcon(props) {
-    const { active, completed, className } = props;
+    const {active, completed, className} = props;
 
     const icons = {
-        1: <StepOneIcon />,
-        2: <StepTwoIcon />,
-        3: <StepThreeIcon />,
+        1: <StepOneIcon/>,
+        2: <StepTwoIcon/>,
+        3: <StepThreeIcon/>,
     };
 
     return (
-        <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+        <ColorlibStepIconRoot ownerState={{completed, active}} className={className}>
             {icons[String(props.icon)]}
         </ColorlibStepIconRoot>
     );
@@ -90,23 +96,86 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-const steps = ['Associate ID with email', 'Verify one time code', 'Save your ID'];
+const steps = ['Associate', 'Verify', 'Save'];
+
+function getStepContent(step) {
+    switch (step) {
+        case 0:
+            return <FormStepOne/>;
+        case 1:
+            return <FormStepTwo/>;
+        case 2:
+            return <FormStepThree/>;
+        default:
+            throw new Error('Unknown step');
+    }
+}
 
 function BuildIdentityStepper() {
-  return (
-      <Box
-        sx={{
-            marginTop: '48px'
-        }}>
-          <Stepper alternativeLabel activeStep={0} connector={<ColorlibConnector />}>
-              {steps.map((label) => (
-                  <Step key={label}>
-                      <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                  </Step>
-              ))}
-          </Stepper>
-      </Box>
-  );
+    const [activeStep, setActiveStep] = useState(0);
+
+    return (
+        <Stack spacing={3}>
+            <Box sx={{
+                marginTop: '48px'
+            }}>
+                <Stepper activeStep={activeStep} connector={<ColorlibConnector/>}>
+                    {steps.map((label) => (
+                        <Step
+                            sx={{
+                                padding: '0px',
+                            }}
+                            key={label}
+                        >
+                            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+            </Box>
+            <Box sx={{
+                marginTop: '48px'
+            }}>
+                {getStepContent(activeStep)}
+            </Box>
+            <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+            >
+                <Stack spacing={1} direction={'row'}>
+                    <Button
+                        variant="text"
+                        color="primary"
+                        size="large"
+                        type="submit"
+                        sx={{
+                            display: () => activeStep > 0 ? 'block' : 'none',
+                        }}
+                        onClick={() => {
+                            if (activeStep > 0) {
+                                setActiveStep(activeStep - 1);
+                            }
+                        }}
+                    >
+                        Back
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        type="submit"
+                        onClick={() => {
+                            if (activeStep <= steps.length) {
+                                setActiveStep(activeStep + 1);
+                            }
+                        }}
+                    >
+                        Next
+                    </Button>
+                </Stack>
+            </Box>
+        </Stack>
+    );
 }
 
 export default BuildIdentityStepper;
