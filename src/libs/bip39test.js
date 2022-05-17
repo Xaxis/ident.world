@@ -9,13 +9,15 @@ import {
     validateMnemonic
 } from 'bip39';
 
-function Bip39Test() {
-    return mnemonicToSeed('basket actual')
-        .then(bytes => bytes.toString('hex'))
-        .then((result) => {
-            // this.mnemonic = result;
-            console.log(result)
+function Bip39BuildCredential(email) {
+    const mnemonic = generateMnemonic();
+    const syncedMnemonic = mnemonicToSeedSync(mnemonic, email).toString('hex');
+    return new Promise((resolve, reject) => {
+        resolve({
+            mnemonic,
+            syncedMnemonic
         });
+    });
 }
 
-export default Bip39Test;
+export default Bip39BuildCredential;

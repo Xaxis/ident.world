@@ -1,6 +1,11 @@
-# Getting Started with ident.world
+# What is ident.world?
 
-This project is a testbed prototype for the ident.world SPA.
+A system for managing online identities.
+
+## How does it work?
+
+1. Create an identity by providing your email address. You can create multiple identities with the same email address. A unique ident.world identifier will be generated for you in each instance.
+2. An email will be sent to you to confirm the creation of your new ident.world identity.
 
 ## Development
 

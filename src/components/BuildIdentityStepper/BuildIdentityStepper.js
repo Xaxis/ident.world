@@ -15,6 +15,7 @@ import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Bip39BuildCredential from "../../libs/bip39test";
 
 const ColorlibConnector = styled(StepConnector)(({theme}) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -98,21 +99,13 @@ ColorlibStepIcon.propTypes = {
 
 const steps = ['Associate', 'Verify', 'Save'];
 
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <FormStepOne/>;
-        case 1:
-            return <FormStepTwo/>;
-        case 2:
-            return <FormStepThree/>;
-        default:
-            throw new Error('Unknown step');
-    }
-}
-
 function BuildIdentityStepper() {
     const [activeStep, setActiveStep] = useState(0);
+    const [email, setEmail] = useState('');
+
+    const onChangeInputHandler = (e, setState) => {
+        setState(e.target.value);
+    }
 
     return (
         <Stack spacing={3}>
@@ -135,7 +128,20 @@ function BuildIdentityStepper() {
             <Box sx={{
                 marginTop: '48px'
             }}>
-                {getStepContent(activeStep)}
+                {(() => {
+                    switch (activeStep) {
+                        case 0:
+                            return <FormStepOne onChangeHandler={(e) => {
+                                setEmail(e.target.value);
+                            }}/>;
+                        case 1:
+                            return <FormStepTwo/>;
+                        case 2:
+                            return <FormStepThree/>;
+                        default:
+                            throw new Error('Unknown step');
+                    }
+                })()}
             </Box>
             <Box
                 display="flex"
@@ -165,6 +171,19 @@ function BuildIdentityStepper() {
                         size="large"
                         type="submit"
                         onClick={() => {
+
+                            // Take actions based on current step
+                            switch(activeStep) {
+                                case 0:
+                                    Bip39BuildCredential(email).then(res => console.log(res));
+                                    break;
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                            }
+
+                            // Proceed to next step
                             if (activeStep <= steps.length) {
                                 setActiveStep(activeStep + 1);
                             }
